@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { RouteEncounter, RouteStatus, NuzlockePokemon } from '../types';
 import { DEFAULT_KALOS_ROUTES } from '../data/kalosRoutes';
+import { translateZoneToFrench } from '../utils/zoneTranslations';
 import {
   Plus,
   Search,
@@ -18,6 +19,7 @@ import {
   HelpCircle,
   X,
   ArrowUpDown,
+  Languages,
 } from 'lucide-react';
 
 interface RouteTrackerProps {
@@ -31,6 +33,7 @@ interface RouteTrackerProps {
   onResetRoutesToDefault?: () => void;
   onImportRoutes?: (routes: RouteEncounter[]) => void;
   onClearAllRoutes?: () => void;
+  onTranslateAllRoutesToFrench?: () => void;
 }
 
 export const RouteTracker: React.FC<RouteTrackerProps> = ({
@@ -54,6 +57,8 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
   const [editingRoute, setEditingRoute] = useState<RouteEncounter | null>(null);
   const [showImportModal, setShowImportModal] = useState(false);
   const [importText, setImportText] = useState('');
+
+  const [autoTranslateImport, setAutoTranslateImport] = useState(true);
 
   // Add form fields
   const [customName, setCustomName] = useState('');
@@ -94,7 +99,8 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
   const handleAddCustom = (e: React.FormEvent) => {
     e.preventDefault();
     if (!customName.trim()) return;
-    onAddCustomRoute(customName.trim(), customZone, customLevel);
+    const formattedName = translateZoneToFrench(customName.trim());
+    onAddCustomRoute(formattedName, customZone, customLevel);
     setCustomName('');
     setShowAddCustom(false);
   };
@@ -121,6 +127,9 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
     const parsedRoutes: RouteEncounter[] = lines.map((line, idx) => {
       // Clean leading bullet or numbers: e.g. "1. Route 3" or "- Route 3 (Lv 12)"
       let cleaned = line.replace(/^[\d+.\-*\s]+/, '').trim();
+      if (autoTranslateImport) {
+        cleaned = translateZoneToFrench(cleaned);
+      }
       let detectedLevel = 5 + Math.floor(idx * 1.5);
       let detectedZone: RouteEncounter['zone'] = 'Kalos Centre';
 
@@ -204,8 +213,21 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
               title="Coller une liste personnalisée de zones (1 par ligne)"
             >
               <FileText className="w-3.5 h-3.5 text-sky-400" />
-              <span>Importer / Coller une Liste</span>
+              <span>Importer / Coller</span>
             </button>
+
+            {onTranslateAllRoutesToFrench && (
+              <button
+                onClick={() => {
+                  onTranslateAllRoutesToFrench();
+                }}
+                className="flex items-center gap-1.5 rounded-xl border border-indigo-700/60 bg-indigo-950/40 px-3 py-2 text-xs font-semibold text-indigo-300 hover:bg-indigo-900/50 hover:text-white cursor-pointer transition-colors"
+                title="Convertir automatiquement toutes les zones en Français (VF pure)"
+              >
+                <Languages className="w-3.5 h-3.5 text-indigo-400" />
+                <span>Traduire en VF</span>
+              </button>
+            )}
 
             {onResetRoutesToDefault && (
               <button
@@ -492,12 +514,38 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
                 Collez votre liste de zones ci-dessous (<strong>1 zone par ligne</strong>). Les zones seront ajoutées ou remplaceront vos zones actuelles.
               </p>
               <textarea
-                rows={10}
+                rows={9}
                 value={importText}
                 onChange={(e) => setImportText(e.target.value)}
-                placeholder={`Ruta 1 (Route 1) - Niv 3\nRuta 2\nForêt de Neuvartault - Niv 5\nPueblo Acrílico\nRuta 3\n...`}
+                placeholder={`Ruta 1 (Route 1) - Niv 3\nRuta 2\nBosque de Neuvartault - Niv 5\nPueblo Acrílico\nRuta 3\n...`}
                 className="w-full rounded-xl border border-stone-700 bg-stone-950 p-3 text-xs text-white placeholder-stone-600 font-mono focus:border-sky-500 focus:outline-none"
               />
+
+              <div className="flex items-center justify-between pt-1">
+                <label className="flex items-center gap-2 text-xs text-stone-300 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={autoTranslateImport}
+                    onChange={(e) => setAutoTranslateImport(e.target.checked)}
+                    className="rounded border-stone-700 bg-stone-950 text-indigo-500 focus:ring-indigo-400"
+                  />
+                  <span>Traduire automatiquement en français (VF)</span>
+                </label>
+
+                {importText.trim() && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const lines = importText.split('\n');
+                      const translated = lines.map((l) => translateZoneToFrench(l)).join('\n');
+                      setImportText(translated);
+                    }}
+                    className="text-[11px] text-indigo-400 hover:text-indigo-300 underline cursor-pointer"
+                  >
+                    Prévisualiser la traduction VF
+                  </button>
+                )}
+              </div>
             </div>
 
             <div className="flex justify-end gap-2 pt-2 border-t border-stone-800">

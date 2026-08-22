@@ -13,6 +13,7 @@ import {
   createInitialRun,
 } from './utils/storage';
 import { DEFAULT_KALOS_ROUTES } from './data/kalosRoutes';
+import { translateZoneToFrench } from './utils/zoneTranslations';
 import { Navbar, TabId } from './components/Navbar';
 import { TeamView } from './components/TeamView';
 import { BoxView } from './components/BoxView';
@@ -292,6 +293,33 @@ export default function App() {
     }));
   };
 
+  const handleTranslateAllRoutesToFrench = () => {
+    updateCurrentRun((run) => {
+      // 1. Translate all routes
+      const translatedRoutes = run.routes.map((r) => ({
+        ...r,
+        name: translateZoneToFrench(r.name),
+      }));
+
+      // 2. Also update encounterRouteName on caught Pokémon
+      const updatePokeList = (list: NuzlockePokemon[]) =>
+        list.map((p) => {
+          if (p.encounterRouteName) {
+            return { ...p, encounterRouteName: translateZoneToFrench(p.encounterRouteName) };
+          }
+          return p;
+        });
+
+      return {
+        ...run,
+        routes: translatedRoutes,
+        party: updatePokeList(run.party),
+        pcBox: updatePokeList(run.pcBox),
+        graveyard: updatePokeList(run.graveyard),
+      };
+    });
+  };
+
   const handleImportRoutes = (newRoutes: RouteEncounter[]) => {
     updateCurrentRun((run) => ({
       ...run,
@@ -429,6 +457,7 @@ export default function App() {
             onResetRoutesToDefault={handleResetRoutesToDefault}
             onImportRoutes={handleImportRoutes}
             onClearAllRoutes={handleClearAllRoutes}
+            onTranslateAllRoutesToFrench={handleTranslateAllRoutesToFrench}
           />
         )}
 
