@@ -1,0 +1,6 @@
+{
+  "name": "Pokémon Z Nuzlocke Tracker",
+  "description": "Application complète de suivi et statistiques de Nuzlocke pour Pokémon Z : gestion d'équipe, routes, cimetière, caps de niveau et analyseurs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
