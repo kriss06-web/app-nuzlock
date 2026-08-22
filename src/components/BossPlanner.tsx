@@ -87,10 +87,10 @@ export const BossPlanner: React.FC<BossPlannerProps> = ({
         <div className="flex flex-wrap gap-2 pt-2 border-t border-stone-800">
           {[
             { id: 'ALL', label: `Tous (${bosses.length})` },
-            { id: 'gym', label: '12 Arènes (Pokémon Z)' },
-            { id: 'team_flare', label: 'Team Flare & Lysandre' },
-            { id: 'league', label: 'Conseil 4 & Maître' },
-            { id: 'zygarde', label: 'Boss Pokémon Z (Zygarde)' },
+            { id: 'gym', label: '12 Arènes Z (Kalos Antique)' },
+            { id: 'team_flare', label: 'Crise Flare & Lysandre' },
+            { id: 'league', label: 'Conseil des Monarques & Trône' },
+            { id: 'zygarde', label: 'Boss Suprême (Zygarde 100%)' },
           ].map((cat) => (
             <button
               key={cat.id}

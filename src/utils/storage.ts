@@ -383,7 +383,19 @@ export function loadAllRuns(): NuzlockeRun[] {
       setActiveRunId(initial.id);
       return [initial];
     }
-    return parsed;
+    // Ensure all runs have full Pokemon Z bosses structure
+    const updatedRuns = parsed.map((run) => {
+      if (!run.bosses || run.bosses.length < DEFAULT_KALOS_BOSSES.length) {
+        const existingMap = new Map((run.bosses || []).map((b) => [b.id, b]));
+        const mergedBosses = DEFAULT_KALOS_BOSSES.map((defaultBoss) => {
+          const existing = existingMap.get(defaultBoss.id);
+          return existing ? { ...defaultBoss, isDefeated: existing.isDefeated } : { ...defaultBoss };
+        });
+        return { ...run, bosses: mergedBosses };
+      }
+      return run;
+    });
+    return updatedRuns;
   } catch (e) {
     console.error('Failed to load runs from localStorage', e);
     const initial = createInitialSampleRun();
