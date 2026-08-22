@@ -383,9 +383,10 @@ export function loadAllRuns(): NuzlockeRun[] {
       setActiveRunId(initial.id);
       return [initial];
     }
-    // Ensure all runs have full Pokemon Z bosses structure
+    // Ensure all runs have the new 12 Régents structure
     const updatedRuns = parsed.map((run) => {
-      if (!run.bosses || run.bosses.length < DEFAULT_KALOS_BOSSES.length) {
+      const hasOldBossIds = !run.bosses || run.bosses.some((b) => b.id.startsWith('gym-') || b.id.startsWith('e4-') || b.id === 'boss-flare-lysandre');
+      if (hasOldBossIds || run.bosses.length !== DEFAULT_KALOS_BOSSES.length) {
         const existingMap = new Map((run.bosses || []).map((b) => [b.id, b]));
         const mergedBosses = DEFAULT_KALOS_BOSSES.map((defaultBoss) => {
           const existing = existingMap.get(defaultBoss.id);

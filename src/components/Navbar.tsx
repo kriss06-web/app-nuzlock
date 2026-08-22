@@ -34,7 +34,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'party', label: 'Équipe', icon: Swords, count: currentRun.party.length, badgeColor: 'bg-emerald-500/20 text-emerald-300' },
     { id: 'box', label: 'PC Box', icon: Archive, count: currentRun.pcBox.length, badgeColor: 'bg-sky-500/20 text-sky-300' },
     { id: 'routes', label: 'Routes & Zones', icon: MapPin, count: currentRun.routes.filter(r => r.status === 'caught').length, badgeColor: 'bg-emerald-500/20 text-emerald-300' },
-    { id: 'bosses', label: 'Arènes & Caps', icon: Trophy, count: defeatedBossesCount, badgeColor: 'bg-amber-500/20 text-amber-300' },
+    { id: 'bosses', label: 'Régents & Bastions', icon: Trophy, count: defeatedBossesCount, badgeColor: 'bg-amber-500/20 text-amber-300' },
     { id: 'graveyard', label: 'Cimetière', icon: Skull, count: currentRun.graveyard.length, badgeColor: 'bg-rose-500/20 text-rose-300' },
     { id: 'analyzer', label: 'Types & Défense', icon: Layers },
     { id: 'stats', label: 'Journal & Stats', icon: BookOpen },

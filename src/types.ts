@@ -133,10 +133,10 @@ export interface BossEncounter {
   leaderName: string;
   badgeName: string;
   badgeIcon: string;
-  levelCap: number;
+  levelCap?: number;
   typeSpecialty: PokemonType[];
   location: string;
-  team: BossPokemon[];
+  team?: BossPokemon[];
   isDefeated: boolean;
   defeatedDate?: string;
   notes?: string;
