@@ -1,4 +1,4 @@
-<img width="1254" height="1254" alt="qr-code (1)" src="https://github.com/user-attachments/assets/d4643a01-3684-492d-9c0f-879289f5df6c" />
+<img width="254" height="254" alt="qr-code (1)" src="https://github.com/user-attachments/assets/d4643a01-3684-492d-9c0f-879289f5df6c" />
 
 # ⚡ Pokémon Z • Nuzlocke Tracker
 
