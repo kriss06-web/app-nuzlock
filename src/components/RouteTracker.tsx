@@ -21,6 +21,7 @@ import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
+  GripVertical,
   Languages,
 } from 'lucide-react';
 
@@ -32,6 +33,7 @@ interface RouteTrackerProps {
   onAddCustomRoute: (name: string, zone: RouteEncounter['zone'], suggestedLevel: number) => void;
   onDeleteRoute?: (routeId: string) => void;
   onMoveRoute?: (routeId: string, direction: 'up' | 'down') => void;
+  onReorderRoutes?: (reorderedRoutes: RouteEncounter[]) => void;
   onEditRoute?: (routeId: string, updated: Partial<RouteEncounter>) => void;
   onResetRoutesToDefault?: () => void;
   onImportRoutes?: (routes: RouteEncounter[]) => void;
@@ -47,6 +49,7 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
   onAddCustomRoute,
   onDeleteRoute,
   onMoveRoute,
+  onReorderRoutes,
   onEditRoute,
   onResetRoutesToDefault,
   onImportRoutes,
@@ -70,6 +73,13 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
   const [customZone, setCustomZone] = useState<RouteEncounter['zone']>('Kalos Centre');
   const [customLevel, setCustomLevel] = useState(15);
 
+  // Drag and drop state (Mouse & Touch)
+  const [draggedRouteId, setDraggedRouteId] = useState<string | null>(null);
+  const [dragOverRouteId, setDragOverRouteId] = useState<string | null>(null);
+  const [touchDraggingId, setTouchDraggingId] = useState<string | null>(null);
+  const touchStartPosRef = React.useRef<{ x: number; y: number } | null>(null);
+  const touchSourceIdRef = React.useRef<string | null>(null);
+
   const zones: RouteEncounter['zone'][] = [
     'Kalos Centre',
     'Kalos Côtes',
@@ -92,6 +102,79 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
     const matchesStatus = statusFilter === 'ALL' || r.status === statusFilter;
     return matchesSearch && matchesZone && matchesStatus;
   });
+
+  const handleReorder = (sourceId: string, targetId: string) => {
+    if (!sourceId || !targetId || sourceId === targetId) return;
+    const sourceIndex = routes.findIndex((r) => r.id === sourceId);
+    const targetIndex = routes.findIndex((r) => r.id === targetId);
+    if (sourceIndex === -1 || targetIndex === -1) return;
+
+    const newRoutes = [...routes];
+    const [movedItem] = newRoutes.splice(sourceIndex, 1);
+    newRoutes.splice(targetIndex, 0, movedItem);
+
+    if (onReorderRoutes) {
+      onReorderRoutes(newRoutes);
+    }
+  };
+
+  // Desktop Mouse Drag & Drop
+  const handleDragStart = (e: React.DragEvent, id: string) => {
+    setDraggedRouteId(id);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', id);
+  };
+
+  const handleDragOver = (e: React.DragEvent, id: string) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (dragOverRouteId !== id) {
+      setDragOverRouteId(id);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent, targetId: string) => {
+    e.preventDefault();
+    if (draggedRouteId && draggedRouteId !== targetId) {
+      handleReorder(draggedRouteId, targetId);
+    }
+    setDraggedRouteId(null);
+    setDragOverRouteId(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedRouteId(null);
+    setDragOverRouteId(null);
+  };
+
+  // Mobile / Touch Drag & Drop
+  const handleTouchStart = (id: string, e: React.TouchEvent) => {
+    touchSourceIdRef.current = id;
+    const touch = e.touches[0];
+    touchStartPosRef.current = { x: touch.clientX, y: touch.clientY };
+    setTouchDraggingId(id);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchSourceIdRef.current) return;
+    const touch = e.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    const routeCard = element?.closest('[data-route-id]');
+    const targetId = routeCard?.getAttribute('data-route-id');
+    if (targetId && targetId !== touchSourceIdRef.current) {
+      setDragOverRouteId(targetId);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (touchSourceIdRef.current && dragOverRouteId && touchSourceIdRef.current !== dragOverRouteId) {
+      handleReorder(touchSourceIdRef.current, dragOverRouteId);
+    }
+    touchSourceIdRef.current = null;
+    touchStartPosRef.current = null;
+    setTouchDraggingId(null);
+    setDragOverRouteId(null);
+  };
 
   // Calculate statistics
   const totalRoutes = routes.length;
@@ -198,7 +281,7 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
               </h2>
             </div>
             <p className="mt-1 text-xs text-stone-400">
-              Zones adaptées au fangame <strong>Pokémon Z</strong> (Eric Lostie). Vous pouvez ajouter, modifier, supprimer ou importer vos zones.
+              Zones de <strong>Pokémon Z</strong>. Glissez-déposez les zones (souris ou doigt) ou utilisez les flèches pour réordonner votre progression.
             </p>
           </div>
 
@@ -604,14 +687,41 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
           {filteredRoutes.map((route) => {
             const caughtPokemon = pokemonByRoute[route.id];
             const statusBadge = getStatusBadge(route.status);
+            const isBeingDragged = draggedRouteId === route.id || touchDraggingId === route.id;
+            const isDragOver = dragOverRouteId === route.id && !isBeingDragged;
 
             return (
               <div
                 key={route.id}
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-stone-800/90 bg-stone-900/70 p-3.5 transition-colors hover:border-stone-700 hover:bg-stone-900"
+                data-route-id={route.id}
+                draggable={Boolean(onReorderRoutes)}
+                onDragStart={(e) => handleDragStart(e, route.id)}
+                onDragOver={(e) => handleDragOver(e, route.id)}
+                onDragEnd={handleDragEnd}
+                onDrop={(e) => handleDrop(e, route.id)}
+                className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border p-3.5 transition-all duration-150 ${
+                  isBeingDragged
+                    ? 'opacity-40 scale-[0.99] border-dashed border-emerald-500 bg-emerald-950/20'
+                    : isDragOver
+                    ? 'border-emerald-400 bg-emerald-950/40 ring-2 ring-emerald-400/50 shadow-lg translate-y-0.5'
+                    : 'border-stone-800/90 bg-stone-900/70 hover:border-stone-700 hover:bg-stone-900'
+                }`}
               >
-                {/* Left: Move Arrows, Order Number, Route Name, Zone, Level */}
-                <div className="flex items-center gap-2.5 min-w-0">
+                {/* Left: Drag Handle, Move Arrows, Order Number, Route Name, Zone, Level */}
+                <div className="flex items-center gap-2 min-w-0">
+                  {/* Grip / Drag Handle for touch & mouse */}
+                  {onReorderRoutes && (
+                    <div
+                      title="Maintenir enfoncé pour glisser-déposer (souris ou doigt)"
+                      onTouchStart={(e) => handleTouchStart(route.id, e)}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={handleTouchEnd}
+                      className="p-1 rounded text-stone-500 hover:text-emerald-400 active:text-emerald-300 cursor-grab active:cursor-grabbing touch-none shrink-0"
+                    >
+                      <GripVertical className="w-4 h-4" />
+                    </div>
+                  )}
+
                   {onMoveRoute && (
                     <div className="flex flex-col gap-0.5 shrink-0">
                       <button

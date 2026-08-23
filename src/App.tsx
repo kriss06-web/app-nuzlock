@@ -298,6 +298,13 @@ export default function App() {
     });
   };
 
+  const handleReorderRoutes = (newRoutes: RouteEncounter[]) => {
+    updateCurrentRun((run) => ({
+      ...run,
+      routes: newRoutes.map((r, idx) => ({ ...r, order: idx + 1 })),
+    }));
+  };
+
   const handleEditRoute = (routeId: string, updated: Partial<RouteEncounter>) => {
     updateCurrentRun((run) => ({
       ...run,
@@ -473,6 +480,7 @@ export default function App() {
             onAddCustomRoute={handleAddCustomRoute}
             onDeleteRoute={handleDeleteRoute}
             onMoveRoute={handleMoveRoute}
+            onReorderRoutes={handleReorderRoutes}
             onEditRoute={handleEditRoute}
             onResetRoutesToDefault={handleResetRoutesToDefault}
             onImportRoutes={handleImportRoutes}
