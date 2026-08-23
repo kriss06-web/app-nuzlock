@@ -19,6 +19,8 @@ import {
   HelpCircle,
   X,
   ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
   Languages,
 } from 'lucide-react';
 
@@ -29,6 +31,7 @@ interface RouteTrackerProps {
   onCatchPokemonOnRoute: (route: RouteEncounter) => void;
   onAddCustomRoute: (name: string, zone: RouteEncounter['zone'], suggestedLevel: number) => void;
   onDeleteRoute?: (routeId: string) => void;
+  onMoveRoute?: (routeId: string, direction: 'up' | 'down') => void;
   onEditRoute?: (routeId: string, updated: Partial<RouteEncounter>) => void;
   onResetRoutesToDefault?: () => void;
   onImportRoutes?: (routes: RouteEncounter[]) => void;
@@ -43,10 +46,12 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
   onCatchPokemonOnRoute,
   onAddCustomRoute,
   onDeleteRoute,
+  onMoveRoute,
   onEditRoute,
   onResetRoutesToDefault,
   onImportRoutes,
   onClearAllRoutes,
+  onTranslateAllRoutesToFrench,
 }) => {
   const [search, setSearch] = useState('');
   const [zoneFilter, setZoneFilter] = useState<string>('ALL');
@@ -605,8 +610,31 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
                 key={route.id}
                 className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-xl border border-stone-800/90 bg-stone-900/70 p-3.5 transition-colors hover:border-stone-700 hover:bg-stone-900"
               >
-                {/* Left: Route Name, Zone, Level */}
-                <div className="flex items-center gap-3 min-w-0">
+                {/* Left: Move Arrows, Order Number, Route Name, Zone, Level */}
+                <div className="flex items-center gap-2.5 min-w-0">
+                  {onMoveRoute && (
+                    <div className="flex flex-col gap-0.5 shrink-0">
+                      <button
+                        type="button"
+                        onClick={() => onMoveRoute(route.id, 'up')}
+                        disabled={route.order <= 1}
+                        title="Monter cette zone"
+                        className="p-1 rounded bg-stone-950 border border-stone-800 text-stone-400 hover:text-emerald-400 hover:border-emerald-500/50 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                      >
+                        <ArrowUp className="w-3 h-3" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => onMoveRoute(route.id, 'down')}
+                        disabled={route.order >= routes.length}
+                        title="Descendre cette zone"
+                        className="p-1 rounded bg-stone-950 border border-stone-800 text-stone-400 hover:text-emerald-400 hover:border-emerald-500/50 disabled:opacity-20 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                      >
+                        <ArrowDown className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-stone-950 border border-stone-800 text-stone-400 font-mono text-xs font-bold">
                     #{route.order}
                   </span>

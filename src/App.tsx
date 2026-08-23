@@ -279,6 +279,25 @@ export default function App() {
     }));
   };
 
+  const handleMoveRoute = (routeId: string, direction: 'up' | 'down') => {
+    updateCurrentRun((run) => {
+      const index = run.routes.findIndex((r) => r.id === routeId);
+      if (index === -1) return run;
+      const targetIndex = direction === 'up' ? index - 1 : index + 1;
+      if (targetIndex < 0 || targetIndex >= run.routes.length) return run;
+
+      const newRoutes = [...run.routes];
+      const temp = newRoutes[index];
+      newRoutes[index] = newRoutes[targetIndex];
+      newRoutes[targetIndex] = temp;
+
+      return {
+        ...run,
+        routes: newRoutes.map((r, idx) => ({ ...r, order: idx + 1 })),
+      };
+    });
+  };
+
   const handleEditRoute = (routeId: string, updated: Partial<RouteEncounter>) => {
     updateCurrentRun((run) => ({
       ...run,
@@ -453,6 +472,7 @@ export default function App() {
             onCatchPokemonOnRoute={handleCatchPokemonOnRoute}
             onAddCustomRoute={handleAddCustomRoute}
             onDeleteRoute={handleDeleteRoute}
+            onMoveRoute={handleMoveRoute}
             onEditRoute={handleEditRoute}
             onResetRoutesToDefault={handleResetRoutesToDefault}
             onImportRoutes={handleImportRoutes}

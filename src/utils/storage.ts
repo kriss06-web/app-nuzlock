@@ -383,18 +383,30 @@ export function loadAllRuns(): NuzlockeRun[] {
       setActiveRunId(initial.id);
       return [initial];
     }
-    // Ensure all runs have the new 12 Régents structure
+    // Ensure all runs have the new 12 Régents structure and update routes if using older list
     const updatedRuns = parsed.map((run) => {
+      let runBosses = run.bosses;
       const hasOldBossIds = !run.bosses || run.bosses.some((b) => b.id.startsWith('gym-') || b.id.startsWith('e4-') || b.id === 'boss-flare-lysandre');
       if (hasOldBossIds || run.bosses.length !== DEFAULT_KALOS_BOSSES.length) {
         const existingMap = new Map((run.bosses || []).map((b) => [b.id, b]));
-        const mergedBosses = DEFAULT_KALOS_BOSSES.map((defaultBoss) => {
+        runBosses = DEFAULT_KALOS_BOSSES.map((defaultBoss) => {
           const existing = existingMap.get(defaultBoss.id);
           return existing ? { ...defaultBoss, isDefeated: existing.isDefeated } : { ...defaultBoss };
         });
-        return { ...run, bosses: mergedBosses };
       }
-      return run;
+
+      // If routes array has the old 59 routes or old starter id, preserve caught statuses where possible
+      let runRoutes = run.routes;
+      if (!runRoutes || runRoutes.length === 59 || runRoutes.some(r => r.id === 'foret-neuvartault' || r.id === 'route-22')) {
+        const existingRouteMap = new Map(runRoutes.map(r => [r.name.toLowerCase(), r]));
+        runRoutes = DEFAULT_KALOS_ROUTES.map(defRoute => {
+          // match by similar name or id
+          const match = runRoutes.find(r => r.id === defRoute.id || r.name.toLowerCase().includes(defRoute.name.toLowerCase()));
+          return match ? { ...defRoute, status: match.status } : { ...defRoute };
+        });
+      }
+
+      return { ...run, bosses: runBosses, routes: runRoutes };
     });
     return updatedRuns;
   } catch (e) {
