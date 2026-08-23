@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NuzlockeRun } from '../types';
-import { Shield, Share2, Plus, Sparkles, FolderKanban, BookOpen, Layers, Swords, Archive, MapPin, Skull, Trophy } from 'lucide-react';
+import { Shield, Share2, Plus, Sparkles, FolderKanban, BookOpen, Layers, Swords, Archive, MapPin, Skull, Trophy, QrCode } from 'lucide-react';
 
 export type TabId = 'party' | 'box' | 'routes' | 'bosses' | 'graveyard' | 'analyzer' | 'stats' | 'calc';
 
@@ -123,13 +123,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="hidden sm:inline">Règles</span>
             </button>
 
-            {/* Export Button */}
+            {/* Export & QR Code Button */}
             <button
               onClick={onOpenExportModal}
               className="inline-flex items-center gap-1.5 rounded-xl border border-stone-800 bg-stone-900 px-3 py-1.5 text-xs font-semibold text-stone-300 hover:bg-stone-800 hover:text-white transition-colors"
             >
-              <Share2 className="w-3.5 h-3.5 text-sky-400" />
-              <span className="hidden sm:inline">Partager / Export</span>
+              <QrCode className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="hidden sm:inline">QR Code / Partage</span>
             </button>
           </div>
         </div>
