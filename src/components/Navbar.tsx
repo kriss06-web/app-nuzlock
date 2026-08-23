@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { NuzlockeRun } from '../types';
-import { Shield, Share2, Plus, Sparkles, FolderKanban, BookOpen, Layers, Swords, Archive, MapPin, Skull, Trophy, QrCode } from 'lucide-react';
+import { Shield, Share2, Plus, Sparkles, FolderKanban, BookOpen, Layers, Swords, Archive, MapPin, Skull, Trophy, QrCode, Search } from 'lucide-react';
 
-export type TabId = 'party' | 'box' | 'routes' | 'bosses' | 'graveyard' | 'analyzer' | 'stats' | 'calc';
+export type TabId = 'party' | 'box' | 'routes' | 'bosses' | 'graveyard' | 'analyzer' | 'pokedex' | 'stats' | 'calc';
 
 interface NavbarProps {
   currentRun: NuzlockeRun;
@@ -36,6 +36,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'routes', label: 'Routes & Zones', icon: MapPin, count: currentRun.routes.filter(r => r.status === 'caught').length, badgeColor: 'bg-emerald-500/20 text-emerald-300' },
     { id: 'bosses', label: 'Régents & Bastions', icon: Trophy, count: defeatedBossesCount, badgeColor: 'bg-amber-500/20 text-amber-300' },
     { id: 'graveyard', label: 'Cimetière', icon: Skull, count: currentRun.graveyard.length, badgeColor: 'bg-rose-500/20 text-rose-300' },
+    { id: 'pokedex', label: 'Pokédex 1-9G', icon: Search },
     { id: 'analyzer', label: 'Types & Défense', icon: Layers },
     { id: 'stats', label: 'Journal & Stats', icon: BookOpen },
     { id: 'calc', label: 'Calculateur', icon: Sparkles },

@@ -18,6 +18,27 @@ export type PokemonType =
   | 'Ténèbres'
   | 'Fée';
 
+export const POKEMON_TYPES: PokemonType[] = [
+  'Normal',
+  'Feu',
+  'Eau',
+  'Plante',
+  'Électrik',
+  'Glace',
+  'Combat',
+  'Poison',
+  'Sol',
+  'Vol',
+  'Psy',
+  'Insecte',
+  'Roche',
+  'Spectre',
+  'Dragon',
+  'Acier',
+  'Ténèbres',
+  'Fée',
+];
+
 export interface PokemonSpecies {
   id: number;
   name: string;

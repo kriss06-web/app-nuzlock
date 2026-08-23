@@ -1,0 +1,77 @@
+import { PokemonSpecies } from '../../types';
+
+export const MEGAS_AND_SPECIAL_FORMS: PokemonSpecies[] = [
+  // --- Mega Evolutions ---
+  { id: 10033, name: 'Mega Venusaur', frenchName: 'Méga-Florizarre', types: ['Plante', 'Poison'], baseStats: { hp: 80, atk: 100, def: 123, spa: 122, spd: 120, spe: 80 }, spriteKey: 'venusaur-mega', generation: 6, isMega: true },
+  { id: 10034, name: 'Mega Charizard X', frenchName: 'Méga-Dracaufeu X', types: ['Feu', 'Dragon'], baseStats: { hp: 78, atk: 130, def: 111, spa: 130, spd: 85, spe: 100 }, spriteKey: 'charizard-megax', generation: 6, isMega: true },
+  { id: 10035, name: 'Mega Charizard Y', frenchName: 'Méga-Dracaufeu Y', types: ['Feu', 'Vol'], baseStats: { hp: 78, atk: 104, def: 78, spa: 159, spd: 115, spe: 100 }, spriteKey: 'charizard-megay', generation: 6, isMega: true },
+  { id: 10036, name: 'Mega Blastoise', frenchName: 'Méga-Tortank', types: ['Eau'], baseStats: { hp: 79, atk: 103, def: 120, spa: 135, spd: 115, spe: 78 }, spriteKey: 'blastoise-mega', generation: 6, isMega: true },
+  { id: 10037, name: 'Mega Alakazam', frenchName: 'Méga-Alakazam', types: ['Psy'], baseStats: { hp: 55, atk: 50, def: 65, spa: 175, spd: 105, spe: 150 }, spriteKey: 'alakazam-mega', generation: 6, isMega: true },
+  { id: 10038, name: 'Mega Gengar', frenchName: 'Méga-Ectoplasma', types: ['Spectre', 'Poison'], baseStats: { hp: 60, atk: 65, def: 80, spa: 170, spd: 95, spe: 130 }, spriteKey: 'gengar-mega', generation: 6, isMega: true },
+  { id: 10039, name: 'Mega Kangaskhan', frenchName: 'Méga-Kangourex', types: ['Normal'], baseStats: { hp: 105, atk: 125, def: 100, spa: 60, spd: 100, spe: 100 }, spriteKey: 'kangaskhan-mega', generation: 6, isMega: true },
+  { id: 10040, name: 'Mega Pinsir', frenchName: 'Méga-Scarabrute', types: ['Insecte', 'Vol'], baseStats: { hp: 65, atk: 155, def: 120, spa: 65, spd: 90, spe: 105 }, spriteKey: 'pinsir-mega', generation: 6, isMega: true },
+  { id: 10041, name: 'Mega Gyarados', frenchName: 'Méga-Léviator', types: ['Eau', 'Ténèbres'], baseStats: { hp: 95, atk: 155, def: 109, spa: 70, spd: 130, spe: 81 }, spriteKey: 'gyarados-mega', generation: 6, isMega: true },
+  { id: 10042, name: 'Mega Aerodactyl', frenchName: 'Méga-Ptéra', types: ['Roche', 'Vol'], baseStats: { hp: 80, atk: 135, def: 85, spa: 70, spd: 95, spe: 150 }, spriteKey: 'aerodactyl-mega', generation: 6, isMega: true },
+  { id: 10043, name: 'Mega Mewtwo X', frenchName: 'Méga-Mewtwo X', types: ['Psy', 'Combat'], baseStats: { hp: 106, atk: 190, def: 100, spa: 154, spd: 100, spe: 130 }, spriteKey: 'mewtwo-megax', generation: 6, isMega: true, isLegendary: true },
+  { id: 10044, name: 'Mega Mewtwo Y', frenchName: 'Méga-Mewtwo Y', types: ['Psy'], baseStats: { hp: 106, atk: 150, def: 70, spa: 194, spd: 120, spe: 140 }, spriteKey: 'mewtwo-megay', generation: 6, isMega: true, isLegendary: true },
+  { id: 10045, name: 'Mega Ampharos', frenchName: 'Méga-Pharamp', types: ['Électrik', 'Dragon'], baseStats: { hp: 90, atk: 95, def: 105, spa: 165, spd: 110, spe: 45 }, spriteKey: 'ampharos-mega', generation: 6, isMega: true },
+  { id: 10046, name: 'Mega Scizor', frenchName: 'Méga-Cizayox', types: ['Insecte', 'Acier'], baseStats: { hp: 70, atk: 150, def: 140, spa: 65, spd: 100, spe: 75 }, spriteKey: 'scizor-mega', generation: 6, isMega: true },
+  { id: 10047, name: 'Mega Heracross', frenchName: 'Méga-Scarhino', types: ['Insecte', 'Combat'], baseStats: { hp: 80, atk: 185, def: 115, spa: 40, spd: 105, spe: 75 }, spriteKey: 'heracross-mega', generation: 6, isMega: true },
+  { id: 10048, name: 'Mega Houndoom', frenchName: 'Méga-Démolosse', types: ['Ténèbres', 'Feu'], baseStats: { hp: 75, atk: 90, def: 90, spa: 140, spd: 90, spe: 115 }, spriteKey: 'houndoom-mega', generation: 6, isMega: true },
+  { id: 10049, name: 'Mega Tyranitar', frenchName: 'Méga-Tyranocif', types: ['Roche', 'Ténèbres'], baseStats: { hp: 100, atk: 164, def: 150, spa: 95, spd: 120, spe: 71 }, spriteKey: 'tyranitar-mega', generation: 6, isMega: true },
+  { id: 10050, name: 'Mega Blaziken', frenchName: 'Méga-Braségali', types: ['Feu', 'Combat'], baseStats: { hp: 80, atk: 160, def: 80, spa: 130, spd: 80, spe: 100 }, spriteKey: 'blaziken-mega', generation: 6, isMega: true },
+  { id: 10051, name: 'Mega Gardevoir', frenchName: 'Méga-Gardevoir', types: ['Psy', 'Fée'], baseStats: { hp: 68, atk: 85, def: 65, spa: 165, spd: 135, spe: 100 }, spriteKey: 'gardevoir-mega', generation: 6, isMega: true },
+  { id: 10052, name: 'Mega Mawile', frenchName: 'Méga-Mysdibule', types: ['Acier', 'Fée'], baseStats: { hp: 50, atk: 105, def: 125, spa: 55, spd: 95, spe: 50 }, spriteKey: 'mawile-mega', generation: 6, isMega: true },
+  { id: 10053, name: 'Mega Aggron', frenchName: 'Méga-Galeking', types: ['Acier'], baseStats: { hp: 70, atk: 140, def: 230, spa: 60, spd: 80, spe: 50 }, spriteKey: 'aggron-mega', generation: 6, isMega: true },
+  { id: 10054, name: 'Mega Medicham', frenchName: 'Méga-Charmina', types: ['Combat', 'Psy'], baseStats: { hp: 60, atk: 100, def: 85, spa: 80, spd: 85, spe: 100 }, spriteKey: 'medicham-mega', generation: 6, isMega: true },
+  { id: 10055, name: 'Mega Manectric', frenchName: 'Méga-Élecsprint', types: ['Électrik'], baseStats: { hp: 70, atk: 75, def: 80, spa: 135, spd: 80, spe: 135 }, spriteKey: 'manectric-mega', generation: 6, isMega: true },
+  { id: 10056, name: 'Mega Banette', frenchName: 'Méga-Branette', types: ['Spectre'], baseStats: { hp: 64, atk: 165, def: 75, spa: 93, spd: 83, spe: 75 }, spriteKey: 'banette-mega', generation: 6, isMega: true },
+  { id: 10057, name: 'Mega Absol', frenchName: 'Méga-Absol', types: ['Ténèbres'], baseStats: { hp: 65, atk: 150, def: 60, spa: 115, spd: 60, spe: 115 }, spriteKey: 'absol-mega', generation: 6, isMega: true },
+  { id: 10058, name: 'Mega Garchomp', frenchName: 'Méga-Carchacrok', types: ['Dragon', 'Sol'], baseStats: { hp: 108, atk: 170, def: 115, spa: 120, spd: 95, spe: 92 }, spriteKey: 'garchomp-mega', generation: 6, isMega: true },
+  { id: 10059, name: 'Mega Lucario', frenchName: 'Méga-Lucario', types: ['Combat', 'Acier'], baseStats: { hp: 70, atk: 145, def: 88, spa: 140, spd: 70, spe: 112 }, spriteKey: 'lucario-mega', generation: 6, isMega: true },
+  { id: 10060, name: 'Mega Abomasnow', frenchName: 'Méga-Blizzaroi', types: ['Plante', 'Glace'], baseStats: { hp: 90, atk: 132, def: 105, spa: 132, spd: 105, spe: 30 }, spriteKey: 'abomasnow-mega', generation: 6, isMega: true },
+  { id: 10062, name: 'Mega Sceptile', frenchName: 'Méga-Jungko', types: ['Plante', 'Dragon'], baseStats: { hp: 70, atk: 110, def: 75, spa: 145, spd: 85, spe: 145 }, spriteKey: 'sceptile-mega', generation: 6, isMega: true },
+  { id: 10063, name: 'Mega Swampert', frenchName: 'Méga-Laggron', types: ['Eau', 'Sol'], baseStats: { hp: 100, atk: 150, def: 110, spa: 95, spd: 110, spe: 70 }, spriteKey: 'swampert-mega', generation: 6, isMega: true },
+  { id: 10064, name: 'Mega Beedrill', frenchName: 'Méga-Dardargnan', types: ['Insecte', 'Poison'], baseStats: { hp: 65, atk: 150, def: 40, spa: 15, spd: 80, spe: 145 }, spriteKey: 'beedrill-mega', generation: 6, isMega: true },
+  { id: 10065, name: 'Mega Pidgeot', frenchName: 'Méga-Roucarnage', types: ['Normal', 'Vol'], baseStats: { hp: 83, atk: 80, def: 80, spa: 135, spd: 80, spe: 121 }, spriteKey: 'pidgeot-mega', generation: 6, isMega: true },
+  { id: 10066, name: 'Mega Slowbro', frenchName: 'Méga-Flagadoss', types: ['Eau', 'Psy'], baseStats: { hp: 95, atk: 75, def: 180, spa: 130, spd: 80, spe: 30 }, spriteKey: 'slowbro-mega', generation: 6, isMega: true },
+  { id: 10071, name: 'Mega Sableye', frenchName: 'Méga-Ténéfix', types: ['Ténèbres', 'Spectre'], baseStats: { hp: 50, atk: 85, def: 125, spa: 85, spd: 115, spe: 20 }, spriteKey: 'sableye-mega', generation: 6, isMega: true },
+  { id: 10072, name: 'Mega Steelix', frenchName: 'Méga-Steelix', types: ['Acier', 'Sol'], baseStats: { hp: 75, atk: 125, def: 230, spa: 55, spd: 95, spe: 30 }, spriteKey: 'steelix-mega', generation: 6, isMega: true },
+  { id: 10075, name: 'Mega Salamence', frenchName: 'Méga-Drattak', types: ['Dragon', 'Vol'], baseStats: { hp: 95, atk: 145, def: 130, spa: 120, spd: 90, spe: 120 }, spriteKey: 'salamence-mega', generation: 6, isMega: true },
+  { id: 10076, name: 'Mega Metagross', frenchName: 'Méga-Métalosse', types: ['Acier', 'Psy'], baseStats: { hp: 80, atk: 145, def: 150, spa: 105, spd: 110, spe: 110 }, spriteKey: 'metagross-mega', generation: 6, isMega: true },
+  { id: 10077, name: 'Mega Latias', frenchName: 'Méga-Latias', types: ['Dragon', 'Psy'], baseStats: { hp: 80, atk: 100, def: 120, spa: 140, spd: 150, spe: 110 }, spriteKey: 'latias-mega', generation: 6, isMega: true, isLegendary: true },
+  { id: 10078, name: 'Mega Latios', frenchName: 'Méga-Latios', types: ['Dragon', 'Psy'], baseStats: { hp: 80, atk: 130, def: 100, spa: 160, spd: 120, spe: 110 }, spriteKey: 'latios-mega', generation: 6, isMega: true, isLegendary: true },
+  { id: 10079, name: 'Mega Rayquaza', frenchName: 'Méga-Rayquaza', types: ['Dragon', 'Vol'], baseStats: { hp: 105, atk: 180, def: 100, spa: 180, spd: 100, spe: 115 }, spriteKey: 'rayquaza-mega', generation: 6, isMega: true, isLegendary: true },
+  { id: 10087, name: 'Mega Gallade', frenchName: 'Méga-Gallame', types: ['Psy', 'Combat'], baseStats: { hp: 68, atk: 165, def: 95, spa: 65, spd: 115, spe: 110 }, spriteKey: 'gallade-mega', generation: 6, isMega: true },
+  { id: 10088, name: 'Mega Audino', frenchName: 'Méga-Nanméouïe', types: ['Normal', 'Fée'], baseStats: { hp: 103, atk: 60, def: 126, spa: 80, spd: 126, spe: 50 }, spriteKey: 'audino-mega', generation: 6, isMega: true },
+  { id: 10089, name: 'Mega Diancie', frenchName: 'Méga-Diancie', types: ['Roche', 'Fée'], baseStats: { hp: 50, atk: 160, def: 110, spa: 160, spd: 110, spe: 110 }, spriteKey: 'diancie-mega', generation: 6, isMega: true, isLegendary: true },
+
+  // --- Pokémon Z Regional Forms (Eric Lostie) ---
+  { id: 6569, name: 'Froakie Z', frenchName: 'Grenousse Z (Kalos Antique)', types: ['Eau', 'Psy'], baseStats: { hp: 41, atk: 56, def: 40, spa: 62, spd: 44, spe: 71 }, spriteKey: 'froakie', generation: 6 },
+  { id: 6579, name: 'Frogadier Z', frenchName: 'Croâporal Z (Kalos Antique)', types: ['Eau', 'Psy'], baseStats: { hp: 54, atk: 63, def: 52, spa: 83, spd: 56, spe: 97 }, spriteKey: 'frogadier', generation: 6 },
+  { id: 6589, name: 'Greninja Z', frenchName: 'Amphinobi Z (Kalos Antique)', types: ['Eau', 'Psy'], baseStats: { hp: 72, atk: 95, def: 67, spa: 103, spd: 71, spe: 122 }, spriteKey: 'greninja', generation: 6 },
+
+  { id: 6539, name: 'Fennekin Z', frenchName: 'Feunnec Z (Kalos Antique)', types: ['Feu', 'Électrik'], baseStats: { hp: 40, atk: 45, def: 40, spa: 62, spd: 60, spe: 60 }, spriteKey: 'fennekin', generation: 6 },
+  { id: 6549, name: 'Braixen Z', frenchName: 'Roussil Z (Kalos Antique)', types: ['Feu', 'Électrik'], baseStats: { hp: 59, atk: 59, def: 58, spa: 90, spd: 70, spe: 73 }, spriteKey: 'braixen', generation: 6 },
+  { id: 6559, name: 'Delphox Z', frenchName: 'Goupelin Z (Kalos Antique)', types: ['Feu', 'Électrik'], baseStats: { hp: 75, atk: 69, def: 72, spa: 114, spd: 100, spe: 104 }, spriteKey: 'delphox', generation: 6 },
+
+  { id: 6509, name: 'Chespin Z', frenchName: 'Marisson Z (Kalos Antique)', types: ['Plante', 'Sol'], baseStats: { hp: 56, atk: 61, def: 65, spa: 48, spd: 45, spe: 38 }, spriteKey: 'chespin', generation: 6 },
+  { id: 6519, name: 'Quilladin Z', frenchName: 'Boguérisse Z (Kalos Antique)', types: ['Plante', 'Sol'], baseStats: { hp: 61, atk: 78, def: 95, spa: 56, spd: 58, spe: 57 }, spriteKey: 'quilladin', generation: 6 },
+  { id: 6529, name: 'Chesnaught Z', frenchName: 'Blindépique Z (Kalos Antique)', types: ['Plante', 'Sol'], baseStats: { hp: 88, atk: 107, def: 122, spa: 74, spd: 75, spe: 64 }, spriteKey: 'chesnaught', generation: 6 },
+
+  { id: 259, name: 'Pikachu Z', frenchName: 'Pikachu Z (Kalos Antique)', types: ['Poison', 'Électrik'], baseStats: { hp: 35, atk: 55, def: 40, spa: 50, spd: 50, spe: 90 }, spriteKey: 'pikachu', generation: 6 },
+  { id: 269, name: 'Raichu Z', frenchName: 'Raichu Z (Kalos Antique)', types: ['Poison', 'Électrik'], baseStats: { hp: 60, atk: 90, def: 55, spa: 90, spd: 80, spe: 110 }, spriteKey: 'raichu', generation: 6 },
+
+  { id: 1049, name: 'Cubone Z', frenchName: 'Osselait Z (Kalos Antique)', types: ['Sol', 'Roche'], baseStats: { hp: 50, atk: 50, def: 95, spa: 40, spd: 50, spe: 35 }, spriteKey: 'cubone', generation: 6 },
+  { id: 1059, name: 'Marowak Z', frenchName: 'Ossatueur Z (Kalos Antique)', types: ['Sol', 'Acier'], baseStats: { hp: 60, atk: 80, def: 110, spa: 50, spd: 80, spe: 45 }, spriteKey: 'marowak', generation: 6 },
+
+  { id: 3999, name: 'Bidoof Z', frenchName: 'Keunotor Z (Kalos Antique)', types: ['Normal', 'Glace'], baseStats: { hp: 59, atk: 45, def: 40, spa: 35, spd: 40, spe: 31 }, spriteKey: 'bidoof', generation: 6 },
+  { id: 4009, name: 'Bibarel Z', frenchName: 'Castorno Z (Kalos Antique)', types: ['Normal', 'Glace'], baseStats: { hp: 79, atk: 85, def: 60, spa: 55, spd: 60, spe: 71 }, spriteKey: 'bibarel', generation: 6 },
+
+  { id: 5779, name: 'Solosis Z', frenchName: 'Nucléos Z (Kalos Antique)', types: ['Psy', 'Spectre'], baseStats: { hp: 45, atk: 30, def: 40, spa: 105, spd: 50, spe: 20 }, spriteKey: 'solosis', generation: 6 },
+  { id: 5789, name: 'Duosion Z', frenchName: 'Méios Z (Kalos Antique)', types: ['Psy', 'Spectre'], baseStats: { hp: 65, atk: 40, def: 50, spa: 125, spd: 60, spe: 30 }, spriteKey: 'duosion', generation: 6 },
+  { id: 5799, name: 'Reuniclus Z', frenchName: 'Symbios Z (Kalos Antique)', types: ['Psy', 'Spectre'], baseStats: { hp: 110, atk: 65, def: 75, spa: 125, spd: 85, spe: 30 }, spriteKey: 'reuniclus', generation: 6 },
+
+  { id: 4749, name: 'Porygon-Z Z', frenchName: 'Porygon-Z Antique', types: ['Normal', 'Électrik'], baseStats: { hp: 85, atk: 80, def: 70, spa: 135, spd: 75, spe: 90 }, spriteKey: 'porygon-z', generation: 6 },
+  { id: 6709, name: 'AZ Floette', frenchName: 'Floette Fleur Éternelle (AZ)', types: ['Fée'], baseStats: { hp: 74, atk: 65, def: 67, spa: 125, spd: 128, spe: 92 }, spriteKey: 'floette-eternal', generation: 6 },
+];

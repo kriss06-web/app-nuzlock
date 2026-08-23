@@ -23,6 +23,7 @@ import { GraveyardView } from './components/GraveyardView';
 import { TypeAnalyzer } from './components/TypeAnalyzer';
 import { StatsDashboard } from './components/StatsDashboard';
 import { DamageCalcQuick } from './components/DamageCalcQuick';
+import { PokedexExplorer } from './components/PokedexExplorer';
 import { PokemonModal } from './components/PokemonModal';
 import { RulesModal } from './components/RulesModal';
 import { ExportCardModal } from './components/ExportCardModal';
@@ -502,6 +503,40 @@ export default function App() {
             graveyard={currentRun.graveyard}
             onEditPokemon={handleOpenEditPokemon}
             onRevivePokemon={handleRevivePokemon}
+          />
+        )}
+
+        {activeTab === 'pokedex' && (
+          <PokedexExplorer
+            onAddPokemonToParty={(species) => {
+              const newPoke: NuzlockePokemon = {
+                id: `poke-${Date.now()}`,
+                speciesName: species.name,
+                speciesFrenchName: species.frenchName,
+                nickname: species.frenchName,
+                gender: 'N',
+                types: species.types,
+                level: 5,
+                nature: 'Docile',
+                ability: 'Standard',
+                moves: [],
+                status: currentRun.party.length < 6 ? 'party' : 'boxed',
+                encounterRouteId: 'pokedex-encounter',
+                encounterRouteName: 'Pokédex National',
+                metLevel: 5,
+                metDate: new Date().toLocaleDateString('fr-FR'),
+                stats: species.baseStats,
+                spriteKey: species.spriteKey,
+              };
+              updateCurrentRun((run) => {
+                if (run.party.length < 6) {
+                  return { ...run, party: [...run.party, newPoke] };
+                } else {
+                  return { ...run, pcBox: [...run.pcBox, newPoke] };
+                }
+              });
+              setActiveTab(currentRun.party.length < 6 ? 'party' : 'box');
+            }}
           />
         )}
 

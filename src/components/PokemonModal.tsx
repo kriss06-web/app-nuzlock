@@ -105,7 +105,8 @@ export const PokemonModal: React.FC<PokemonModalProps> = ({
   const [spd, setSpd] = useState<number>(initialPokemon?.stats?.spd || 10);
   const [spe, setSpe] = useState<number>(initialPokemon?.stats?.spe || 10);
 
-  const searchResults = searchPokemon(searchQuery);
+  const [searchGenFilter, setSearchGenFilter] = useState<number | 'all' | 'z'>('all');
+  const searchResults = searchPokemon(searchQuery, searchGenFilter);
 
   // Effective Active Types
   const currentTypes: PokemonType[] = type2 === 'None' || type2 === type1 ? [type1] : [type1, type2];
@@ -337,35 +338,87 @@ export const PokemonModal: React.FC<PokemonModalProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-start">
             {/* Left: Species Search */}
             <div className="md:col-span-7 space-y-2">
-              <label className="text-xs font-semibold text-stone-300 uppercase tracking-wider">
-                Espèce Pokémon (Recherche Fr / En)
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold text-stone-300 uppercase tracking-wider">
+                  Pokédex National (#1 à #1025)
+                </label>
+                <span className="text-[11px] text-emerald-400 font-mono">
+                  {searchResults.length} résultats
+                </span>
+              </div>
+
               <div className="relative">
                 <Search className="absolute left-3 top-2.5 h-4 w-4 text-stone-400" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Ex: Kaiminus, Grenousse, Amphinobi, Salamèche, Poussacha..."
+                  placeholder="Nom Fr / En, n° Pokédex (ex: 658, Amphinobi, Sprigatito...)"
                   className="w-full rounded-lg border border-stone-700 bg-stone-950 py-2 pl-9 pr-3 text-sm text-white placeholder-stone-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
               </div>
 
-              {/* Autocomplete tags */}
-              <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto rounded-lg border border-stone-800 bg-stone-950/60 p-2">
-                {searchResults.slice(0, 16).map((sp) => (
+              {/* Generation Quick Filters */}
+              <div className="flex flex-wrap gap-1 items-center pt-0.5">
+                <span className="text-[10px] text-stone-400 font-semibold mr-0.5">Gen:</span>
+                <button
+                  type="button"
+                  onClick={() => setSearchGenFilter('all')}
+                  className={`px-1.5 py-0.5 rounded text-[10px] font-semibold transition-colors cursor-pointer ${
+                    searchGenFilter === 'all'
+                      ? 'bg-emerald-500 text-stone-950'
+                      : 'bg-stone-800 text-stone-400 hover:text-stone-200'
+                  }`}
+                >
+                  Toutes
+                </button>
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((gen) => (
                   <button
-                    key={sp.id + sp.name}
+                    key={gen}
+                    type="button"
+                    onClick={() => setSearchGenFilter(gen)}
+                    className={`px-1.5 py-0.5 rounded text-[10px] font-semibold transition-colors cursor-pointer ${
+                      searchGenFilter === gen
+                        ? 'bg-emerald-500 text-stone-950'
+                        : 'bg-stone-800 text-stone-400 hover:text-stone-200'
+                    }`}
+                  >
+                    {gen}G
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setSearchGenFilter('z')}
+                  className={`px-1.5 py-0.5 rounded text-[10px] font-semibold transition-colors cursor-pointer ${
+                    searchGenFilter === 'z'
+                      ? 'bg-emerald-500 text-stone-950'
+                      : 'bg-emerald-950/60 text-emerald-300 hover:bg-emerald-900'
+                  }`}
+                >
+                  Formes Z
+                </button>
+              </div>
+
+              {/* Autocomplete tags */}
+              <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto rounded-lg border border-stone-800 bg-stone-950/60 p-2">
+                {searchResults.map((sp) => (
+                  <button
+                    key={sp.id + '-' + sp.name}
                     type="button"
                     onClick={() => handleSelectSpecies(sp)}
-                    className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs transition-colors cursor-pointer ${
-                      selectedSpecies?.name === sp.name
+                    className={`flex items-center gap-1.5 rounded-md px-2 py-1 text-xs transition-colors cursor-pointer ${
+                      selectedSpecies?.name === sp.name || selectedSpecies?.id === sp.id
                         ? 'bg-emerald-500 text-stone-950 font-bold shadow-xs'
                         : 'bg-stone-800/80 text-stone-300 hover:bg-stone-700 hover:text-white'
                     }`}
                   >
+                    {sp.id <= 1025 && (
+                      <span className="text-[10px] opacity-60 font-mono">
+                        #{sp.id.toString().padStart(3, '0')}
+                      </span>
+                    )}
                     <span>{sp.frenchName}</span>
-                    <span className="text-[10px] opacity-75">({sp.name})</span>
+                    <span className="text-[10px] opacity-70 font-normal">({sp.name})</span>
                   </button>
                 ))}
               </div>
