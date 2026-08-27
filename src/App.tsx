@@ -47,12 +47,31 @@ export default function App() {
     const loadedRuns = loadAllRuns();
     const savedActiveId = loadActiveRunId();
 
-    setRuns(loadedRuns);
-    if (savedActiveId && loadedRuns.some((r) => r.id === savedActiveId)) {
+    // Migrate any old route lists (e.g. postigo-de-postigo) to the new official 31 zones
+    const migratedRuns = loadedRuns.map((run) => {
+      const hasOldRoutes = run.routes.some((r) => r.id === 'postigo-de-postigo' || r.name.includes('Postigo'));
+      if (hasOldRoutes) {
+        const updatedRoutes = DEFAULT_KALOS_ROUTES.map((defRoute, idx) => {
+          const oldRoute = run.routes[idx];
+          return {
+            ...defRoute,
+            status: oldRoute ? oldRoute.status : defRoute.status,
+            caughtPokemonId: oldRoute ? oldRoute.caughtPokemonId : undefined,
+          };
+        });
+        return { ...run, routes: updatedRoutes };
+      }
+      return run;
+    });
+
+    setRuns(migratedRuns);
+    saveAllRuns(migratedRuns);
+
+    if (savedActiveId && migratedRuns.some((r) => r.id === savedActiveId)) {
       setActiveRunId(savedActiveId);
-    } else if (loadedRuns.length > 0) {
-      setActiveRunId(loadedRuns[0].id);
-      saveActiveRunId(loadedRuns[0].id);
+    } else if (migratedRuns.length > 0) {
+      setActiveRunId(migratedRuns[0].id);
+      saveActiveRunId(migratedRuns[0].id);
     }
   }, []);
 
@@ -314,10 +333,20 @@ export default function App() {
   };
 
   const handleResetRoutesToDefault = () => {
-    updateCurrentRun((run) => ({
-      ...run,
-      routes: DEFAULT_KALOS_ROUTES.map((r) => ({ ...r })),
-    }));
+    updateCurrentRun((run) => {
+      const newRoutes = DEFAULT_KALOS_ROUTES.map((defRoute, idx) => {
+        const existing = run.routes[idx];
+        return {
+          ...defRoute,
+          status: existing ? existing.status : defRoute.status,
+          caughtPokemonId: existing ? existing.caughtPokemonId : undefined,
+        };
+      });
+      return {
+        ...run,
+        routes: newRoutes,
+      };
+    });
   };
 
   const handleTranslateAllRoutesToFrench = () => {

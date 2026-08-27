@@ -322,14 +322,14 @@ export const RouteTracker: React.FC<RouteTrackerProps> = ({
                 onClick={() => {
                   if (
                     window.confirm(
-                      'Rétablir toutes les zones officielles de Pokémon Z ? Cela mettra à jour la liste avec les 59 zones du fangame.'
+                      'Rétablir toutes les zones officielles de Pokémon Z ? Cela mettra à jour la liste avec les 31+ zones officielles (Pyrennes, Route 1, Bordevin, etc.).'
                     )
                   ) {
                     onResetRoutesToDefault();
                   }
                 }}
                 className="flex items-center gap-1.5 rounded-xl border border-stone-800 bg-stone-950 px-3 py-2 text-xs font-semibold text-stone-400 hover:text-emerald-400 hover:border-emerald-500/40 cursor-pointer transition-colors"
-                title="Rétablir la liste officielle des zones Pokémon Z"
+                title="Rétablir la liste officielle des zones Pokémon Z (#1 Pyrennes, #2 Route 1, etc.)"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Restaurer Défaut Z</span>

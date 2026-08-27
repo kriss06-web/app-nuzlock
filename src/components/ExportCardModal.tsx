@@ -109,6 +109,24 @@ Scannez ce QR Code avec l'appareil photo de votre téléphone pour ouvrir imméd
     }
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const content = event.target?.result as string;
+        setImportError('');
+        const imported = parseRunFromJson(content);
+        onImportRun(imported);
+        onClose();
+      } catch (err: any) {
+        setImportError(err.message || 'Erreur lors du décodage du fichier JSON');
+      }
+    };
+    reader.readAsText(file);
+  };
+
   const handleDownloadBackup = () => {
     const jsonStr = exportRunToJson(run);
     const blob = new Blob([jsonStr], { type: 'application/json' });
@@ -435,28 +453,59 @@ Scannez ce QR Code avec l'appareil photo de votre téléphone pour ouvrir imméd
               </div>
 
               {/* Import JSON */}
-              <form onSubmit={handleImportSubmit} className="rounded-xl border border-stone-800 bg-stone-950 p-4 space-y-3">
+              <div className="rounded-xl border border-stone-800 bg-stone-950 p-4 space-y-3">
                 <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                  <Upload className="w-4 h-4 text-sky-400" /> Importer une Run existante
+                  <Upload className="w-4 h-4 text-sky-400" /> Importer / Restaurer une Run
                 </h4>
-                <textarea
-                  rows={4}
-                  value={importJsonText}
-                  onChange={(e) => setImportJsonText(e.target.value)}
-                  placeholder="Collez ici le contenu d'un fichier de sauvegarde JSON..."
-                  className="w-full rounded-lg border border-stone-700 bg-stone-900 p-2.5 text-xs text-stone-200 font-mono focus:outline-none"
-                />
-                {importError && (
-                  <div className="text-xs text-rose-400 font-semibold">{importError}</div>
-                )}
-                <button
-                  type="submit"
-                  disabled={!importJsonText.trim()}
-                  className="rounded-lg bg-sky-600 px-4 py-1.5 text-xs font-bold text-white hover:bg-sky-500 disabled:opacity-50"
-                >
-                  Restaurer la Run
-                </button>
-              </form>
+                <p className="text-xs text-stone-400">
+                  Transférez votre progression depuis votre téléphone vers votre PC en sélectionnant le fichier JSON téléchargé ou en collant son contenu :
+                </p>
+
+                {/* Option 1: File selector */}
+                <div>
+                  <label className="flex flex-col items-center justify-center rounded-xl border border-dashed border-stone-700 bg-stone-900/60 p-4 text-center hover:border-sky-500 transition-colors cursor-pointer">
+                    <Upload className="w-6 h-6 text-sky-400 mb-1" />
+                    <span className="text-xs font-bold text-stone-200">
+                      Cliquer pour charger le fichier .json
+                    </span>
+                    <span className="text-[10px] text-stone-400 mt-0.5">
+                      Fichier téléchargé depuis votre smartphone
+                    </span>
+                    <input
+                      type="file"
+                      accept=".json,application/json"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+
+                <div className="flex items-center gap-2 text-[11px] text-stone-500 font-semibold uppercase tracking-wider my-2">
+                  <div className="h-px bg-stone-800 flex-1" />
+                  <span>OU COLLER LE TEXTE</span>
+                  <div className="h-px bg-stone-800 flex-1" />
+                </div>
+
+                <form onSubmit={handleImportSubmit} className="space-y-2">
+                  <textarea
+                    rows={3}
+                    value={importJsonText}
+                    onChange={(e) => setImportJsonText(e.target.value)}
+                    placeholder="Collez ici le texte JSON de sauvegarde..."
+                    className="w-full rounded-lg border border-stone-700 bg-stone-900 p-2.5 text-xs text-stone-200 font-mono focus:outline-none"
+                  />
+                  {importError && (
+                    <div className="text-xs text-rose-400 font-semibold">{importError}</div>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={!importJsonText.trim()}
+                    className="rounded-lg bg-sky-600 px-4 py-1.5 text-xs font-bold text-white hover:bg-sky-500 disabled:opacity-50 cursor-pointer"
+                  >
+                    Restaurer à partir du texte
+                  </button>
+                </form>
+              </div>
             </div>
           )}
         </div>
